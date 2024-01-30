@@ -1,6 +1,24 @@
-DROP TABLE IF EXISTS tbd.coa_metrics;
+DROP TABLE IF EXISTS metric.coa_metrics;
+DROP FUNCTION IF EXISTS metric.metrics_update_timestamp;
 
-CREATE OR REPLACE FUNCTION metrics_update_timestamp() RETURNS TRIGGER
+CREATE TABLE metric.coa_metrics (
+	metric_id text NOT NULL,
+  period_start date NOT NULL,
+  period_end date NOT NULL,
+  value double precision NULL,
+  disaggregation_type text NULL,
+  disaggregation_value text NULL,
+  note text NULL,
+  version integer default 0,
+  updated_at timestamp NOT NULL,
+	CONSTRAINT coa_metrics_pkey PRIMARY KEY (metric_id, period_start, period_end, version)
+);
+
+-- Permissions
+--ALTER TABLE bedrock.assets OWNER TO bedrock_user;
+--GRANT ALL ON TABLE bedrock.assets TO bedrock_user;
+
+CREATE OR REPLACE FUNCTION metric.metrics_update_timestamp() RETURNS TRIGGER
     LANGUAGE plpgsql
     AS
     $$
@@ -10,26 +28,11 @@ CREATE OR REPLACE FUNCTION metrics_update_timestamp() RETURNS TRIGGER
     END;
     $$;
 
-CREATE TABLE tbd.coa_metrics (
-	metric_id text NOT NULL,
-  period_start date NOT NULL,
-  period_end date NOT NULL,
-  value double precision NULL,
-  disaggregation_type text NULL,
-  disaggregation_value text NULL,
-  note text NULL,
-  version integer default 0,
-  updated_at datetime NOT NULL
-	CONSTRAINT coa_metrics_pkey PRIMARY KEY (metric_id, period_start, period_end, version)
-);
-
--- Permissions
-ALTER TABLE bedrock.assets OWNER TO bedrock_user;
-GRANT ALL ON TABLE bedrock.assets TO bedrock_user;
-
-
 CREATE TRIGGER metrics_update_timestamp
 BEFORE UPDATE
-ON tbd.coa_metrics
+ON metric.coa_metrics
 FOR EACH ROW
-EXECUTE PROCEDURE metrics_update_timestamp();
+EXECUTE PROCEDURE metric.metrics_update_timestamp();
+
+insert into metric.coa_metrics (metric_id, period_start, period_end)
+  values ('abc', '2024-01-30', '2024-02-29');
