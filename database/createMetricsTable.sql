@@ -10,7 +10,7 @@ CREATE TABLE metric.coa_metrics (
   disaggregation_value text NULL,
   note text NULL,
   version integer default 0,
-  updated_at timestamp NOT NULL,
+  updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	CONSTRAINT coa_metrics_pkey PRIMARY KEY (metric_id, period_start, period_end, version)
 );
 

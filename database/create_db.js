@@ -73,9 +73,8 @@ lambda_handler = async function (event, context) {
   }
   const connection = await getDBConnection(dbLocation);
   console.log(connection);
-  const sql = fs.readFileSync('./createMetricsTable.sql').toString();
+  let sql = fs.readFileSync('./createMetricsTable.sql').toString();
 
-//  process.exit(0);
   const client = new Client(connection);
   await client.connect()
   const res = await client.query(sql);
