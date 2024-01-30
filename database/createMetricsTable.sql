@@ -15,8 +15,8 @@ CREATE TABLE internal.coa_metrics (
 );
 
 -- Permissions
---ALTER TABLE bedrock.assets OWNER TO bedrock_user;
---GRANT ALL ON TABLE bedrock.assets TO bedrock_user;
+--ALTER TABLE internal.coa_metrics OWNER TO bedrock_user;
+--GRANT ALL ON TABLE internal.coa_metrics TO bedrock_user;
 
 CREATE OR REPLACE FUNCTION internal.metrics_update_timestamp() RETURNS TRIGGER
     LANGUAGE plpgsql
