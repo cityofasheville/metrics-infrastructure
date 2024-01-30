@@ -1,7 +1,7 @@
-DROP TABLE IF EXISTS metric.coa_metrics;
-DROP FUNCTION IF EXISTS metric.metrics_update_timestamp;
+DROP TABLE IF EXISTS internal.coa_metrics;
+DROP FUNCTION IF EXISTS internal.metrics_update_timestamp;
 
-CREATE TABLE metric.coa_metrics (
+CREATE TABLE internal.coa_metrics (
 	metric_id text NOT NULL,
   period_start date NOT NULL,
   period_end date NOT NULL,
@@ -18,7 +18,7 @@ CREATE TABLE metric.coa_metrics (
 --ALTER TABLE bedrock.assets OWNER TO bedrock_user;
 --GRANT ALL ON TABLE bedrock.assets TO bedrock_user;
 
-CREATE OR REPLACE FUNCTION metric.metrics_update_timestamp() RETURNS TRIGGER
+CREATE OR REPLACE FUNCTION internal.metrics_update_timestamp() RETURNS TRIGGER
     LANGUAGE plpgsql
     AS
     $$
@@ -30,9 +30,6 @@ CREATE OR REPLACE FUNCTION metric.metrics_update_timestamp() RETURNS TRIGGER
 
 CREATE TRIGGER metrics_update_timestamp
 BEFORE UPDATE
-ON metric.coa_metrics
+ON internal.coa_metrics
 FOR EACH ROW
-EXECUTE PROCEDURE metric.metrics_update_timestamp();
-
-insert into metric.coa_metrics (metric_id, period_start, period_end)
-  values ('abc', '2024-01-30', '2024-02-29');
+EXECUTE PROCEDURE internal.metrics_update_timestamp();
