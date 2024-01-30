@@ -72,7 +72,7 @@ lambda_handler = async function (event, context) {
     console.log('Using db location ', dbLocation);
   }
   const connection = await getDBConnection(dbLocation);
-  console.log(connection);
+
   let sql = fs.readFileSync('./createMetricsTable.sql').toString();
 
   const client = new Client(connection);
