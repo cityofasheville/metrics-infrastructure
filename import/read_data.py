@@ -23,13 +23,42 @@ def setUpServices():
   creds = service_account.Credentials.from_service_account_file( SERVICE_ACCOUNT_FILE, scopes=SCOPES )
   sheetService = build('sheets', 'v4', credentials=creds)
 
+def createColumnMap(row):
+  columnMap = dict()
+  print('Column of value is ', row.index('value'))
+  columnMap['period_start'] = row.index('period_start')
+  columnMap['period_end'] = row.index('period_end')
+  columnMap['value'] = row.index('value')
+  columnMap['metric_id'] = row.index('metric_id')
+  if 'note' in row:
+    columnMap['note'] = row.index('note')
+  if 'disaggregation_type' in row:
+    columnMap['disaggregation_type'] = row.index('disaggregation_type')
+  if 'disaggregation_value' in row:
+    columnMap['disaggregation_value'] = row.index('disaggregation_value')
+  return columnMap
+
 def read_data(inputSpreadsheetId):
-    # Gets score weights from the evaluation sheet, and project links, and puts these things into 2
-    # dfs to merge with the main summary df later
     sheet = sheetService.spreadsheets()
     results = sheet.values().get(spreadsheetId=inputSpreadsheetId,range='A1:G3').execute()
     values = results.get('values', [])
     print(values)
+    # Figure out where the data starts and map the relevant columns
+    i = 0
+    hIndex = -1
+    print('length of the array is ', len(values))
+    while i < len(values):
+      row = values[i]
+      if set(['period_start', 'period_end', 'value', 'metric_id']).issubset(row):
+        print('header row is ', i)
+        hIndex = i
+        columnMap = createColumnMap(row)
+        print(columnMap)
+        break
+      i += 1
+    print('Now we look at an individual value')
+
+    print(values[1])
     # del values[13]
     # del values[6]
 
