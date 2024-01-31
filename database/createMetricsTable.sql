@@ -14,10 +14,6 @@ CREATE TABLE internal.coa_metrics (
 	CONSTRAINT coa_metrics_pkey PRIMARY KEY (metric_id, period_start, period_end, version)
 );
 
--- Permissions
---ALTER TABLE internal.coa_metrics OWNER TO bedrock_user;
---GRANT ALL ON TABLE internal.coa_metrics TO bedrock_user;
-
 CREATE OR REPLACE FUNCTION internal.metrics_update_timestamp() RETURNS TRIGGER
     LANGUAGE plpgsql
     AS
