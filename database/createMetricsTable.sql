@@ -11,7 +11,7 @@ CREATE TABLE internal.coa_metrics (
   note text NULL,
   version integer default 0,
   updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	CONSTRAINT coa_metrics_pkey PRIMARY KEY (metric_id, period_start, period_end, version)
+	CONSTRAINT coa_metrics_pkey PRIMARY KEY (metric_id, period_start, period_end, disaggregation_type, disaggregation_value, version)
 );
 
 CREATE OR REPLACE FUNCTION internal.metrics_update_timestamp() RETURNS TRIGGER
