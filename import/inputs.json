@@ -1,5 +1,6 @@
 {
-  "INPUTS_SPREADSHEET_ID": "1_aFLSu5x4kkuUOO8mb_Ti3X9a8sIdfn29z2hxJ5oxE8",
+  "INPUT_SPREADSHEET_ID": "1_aFLSu5x4kkuUOO8mb_Ti3X9a8sIdfn29z2hxJ5oxE8",
+  "INPUT_SPREADSHEET_RANGE": "A1:I1000",
   "testingFile": null,
   "SERVICE_ACCOUNT_FILE": "performance-metrics-import-ce1e427495a4.json"
 }
