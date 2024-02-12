@@ -145,7 +145,10 @@ def readInputSheet(inputSpreadsheetId, inputSpreadsheetRange):
 def readTableRecords(metricId):
     map = {}
 
-    sql = f"SELECT * FROM internal.coa_metrics where metric_id = '{metricId}'"
+    sql = (
+      f"SELECT * FROM internal.coa_metrics where metric_id = '{metricId}'"
+      'order by metric_id, period_start, period_end, disaggregation_type, disaggregation_value, version ASC'
+    )
     cursor.execute(sql)
     rows = cursor.fetchall()
     for i in range(len(rows)):
